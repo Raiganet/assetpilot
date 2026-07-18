@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { Badge } from '@/components/ui/badge';
 import { FormField } from '@/components/forms/form-field';
+import { FormSelect } from '@/components/forms/form-select';
 import { useToast } from '@/lib/hooks/use-toast';
 import { Plus } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -184,7 +185,7 @@ export default function AssetsClient() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Asset ID" {...register('asset_id')} error={errors.asset_id?.message} required />
-            <FormField label="Asset Type" {...register('asset_type')} error={errors.asset_type?.message} required />
+            <FormSelect label="Asset Type" options={assetTypeOptions} {...register('asset_type')} error={errors.asset_type?.message} required />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Brand" {...register('brand')} error={errors.brand?.message} required />
@@ -193,8 +194,8 @@ export default function AssetsClient() {
           <FormField label="Serial Number" {...register('serial_number')} error={errors.serial_number?.message} required />
           <FormField label="Barcode" {...register('barcode')} />
           <div className="grid grid-cols-2 gap-4">
-            <FormField label="Status" {...register('status')} />
-            <FormField label="Condition" {...register('condition')} />
+            <FormSelect label="Status" options={assetStatusOptions} {...register('status')} />
+            <FormSelect label="Condition" options={assetConditionOptions} {...register('condition')} />
           </div>
           <div className="flex gap-3 pt-4">
             <Button type="submit" className="flex-1">{editingAsset ? 'Update' : 'Create'}</Button>

@@ -10,22 +10,11 @@ function writeFile(filePath, content) {
   console.log('✅ Created: ' + filePath);
 }
 
-console.log('🚀 Creating fixed Warehouses and Assets pages...\n');
+console.log('🚀 Adding CRUD features to Warehouses and Assets pages...\n');
 
 // ============================================
-// WAREHOUSES PAGE
+// WAREHOUSES CLIENT (Full CRUD)
 // ============================================
-writeFile('src/app/(dashboard)/warehouses/page.tsx', `import { Metadata } from 'next';
-import WarehousesClient from './warehouses-client';
-
-export const metadata: Metadata = {
-  title: 'Warehouses - AssetPilot',
-};
-
-export default function WarehousesPage() {
-  return <WarehousesClient />;
-}`);
-
 writeFile('src/app/(dashboard)/warehouses/warehouses-client.tsx', `'use client';
 
 import { useEffect, useState } from 'react';
@@ -193,19 +182,8 @@ export default function WarehousesClient() {
 }`);
 
 // ============================================
-// ASSETS PAGE
+// ASSETS CLIENT (Full CRUD)
 // ============================================
-writeFile('src/app/(dashboard)/assets/page.tsx', `import { Metadata } from 'next';
-import AssetsClient from './assets-client';
-
-export const metadata: Metadata = {
-  title: 'Assets - AssetPilot',
-};
-
-export default function AssetsPage() {
-  return <AssetsClient />;
-}`);
-
 writeFile('src/app/(dashboard)/assets/assets-client.tsx', `'use client';
 
 import { useEffect, useState } from 'react';
@@ -214,6 +192,7 @@ import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { Badge } from '@/components/ui/badge';
 import { FormField } from '@/components/forms/form-field';
+import { FormSelect } from '@/components/forms/form-select';
 import { useToast } from '@/lib/hooks/use-toast';
 import { Plus } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -392,7 +371,7 @@ export default function AssetsClient() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Asset ID" {...register('asset_id')} error={errors.asset_id?.message} required />
-            <FormField label="Asset Type" {...register('asset_type')} error={errors.asset_type?.message} required />
+            <FormSelect label="Asset Type" options={assetTypeOptions} {...register('asset_type')} error={errors.asset_type?.message} required />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Brand" {...register('brand')} error={errors.brand?.message} required />
@@ -401,8 +380,8 @@ export default function AssetsClient() {
           <FormField label="Serial Number" {...register('serial_number')} error={errors.serial_number?.message} required />
           <FormField label="Barcode" {...register('barcode')} />
           <div className="grid grid-cols-2 gap-4">
-            <FormField label="Status" {...register('status')} />
-            <FormField label="Condition" {...register('condition')} />
+            <FormSelect label="Status" options={assetStatusOptions} {...register('status')} />
+            <FormSelect label="Condition" options={assetConditionOptions} {...register('condition')} />
           </div>
           <div className="flex gap-3 pt-4">
             <Button type="submit" className="flex-1">{editingAsset ? 'Update' : 'Create'}</Button>
@@ -414,8 +393,8 @@ export default function AssetsClient() {
   );
 }`);
 
-console.log('\n✅ Warehouses and Assets pages created with fixed syntax!');
+console.log('\n✅ CRUD features added successfully!');
 console.log('Next steps:');
 console.log('1. git add .');
-console.log('2. git commit -m "fix: create working warehouses and assets pages"');
+console.log('2. git commit -m "feat: add CRUD functionality to warehouses and assets"');
 console.log('3. git push');
