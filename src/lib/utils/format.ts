@@ -15,10 +15,17 @@ export const formatRelativeTime = (date: Date | string) => {
 
 export const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('id-ID', {
-    style: 'currency', currency: 'IDR', minimumFractionDigits: 0,
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
   }).format(amount);
 };
 
 export const formatNumber = (num: number) => {
   return new Intl.NumberFormat('id-ID').format(num);
+};
+
+export const truncateText = (text: string, maxLength: number) => {
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength) + '...';
 };

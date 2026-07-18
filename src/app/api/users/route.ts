@@ -1,28 +1,43 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { UserService } from '@/lib/services/user.service';
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
 
 export async function GET(request: NextRequest) {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const params = request.nextUrl.searchParams;
-    const page = parseInt(params.get('page') || '1');
-    const pageSize = parseInt(params.get('pageSize') || '10');
-    const search = params.get('search');
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-    let query = supabase.from('profiles').select('*', { count: 'exact' });
-    if (search) query = query.or(`full_name.ilike.%${search}%,email.ilike.%${search}%`);
+    const searchParams = request.nextUrl.searchParams;
+    const page = parseInt(searchParams.get('page') || '1');
+    const pageSize = parseInt(searchParams.get('pageSize') || '10');
+    const search = searchParams.get('search') || undefined;
+    const role = searchParams.get('role') as any;
+    const status = searchParams.get('status') as any;
 
-    const from = (page - 1) * pageSize;
-    const { data, error, count } = await query.order('created_at', { ascending: false }).range(from, from + pageSize - 1);
+    const result = await UserService.getUsers(
+      { search, role, status },
+      page,
+      pageSize
+    );
 
-    if (error) throw error;
-    return NextResponse.json({ data, total: count || 0, page, pageSize, totalPages: Math.ceil((count || 0) / pageSize) });
+    if (!result.success) {
+      return NextResponse.json(
+        { error: result.error },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(result.data);
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Users GET error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }
 
@@ -30,26 +45,27 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     const body = await request.json();
-    const adminClient = createAdminClient();
+    const result = await UserService.createUser(body);
 
-    const { data: authData, error: authError } = await adminClient.auth.admin.createUser({
-      email: body.email, password: body.password, email_confirm: true,
-      user_metadata: { full_name: body.full_name, role: body.role },
-    });
+    if (!result.success) {
+      return NextResponse.json(
+        { error: result.error },
+        { status: 400 }
+      );
+    }
 
-    if (authError) throw authError;
-    if (!authData.user) throw new Error('Failed to create user');
-
-    const { data: profileData, error: profileError } = await adminClient
-      .from('profiles').update({ full_name: body.full_name, phone: body.phone, role: body.role })
-      .eq('id', authData.user.id).select().single();
-
-    if (profileError) throw profileError;
-    return NextResponse.json(profileData, { status: 201 });
+    return NextResponse.json(result.data, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Failed' }, { status: 400 });
+    console.error('Users POST error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }

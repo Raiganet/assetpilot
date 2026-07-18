@@ -19,3 +19,15 @@ export interface ApiResponse<T> {
   error?: string;
   message?: string;
 }
+
+export interface SelectOption {
+  value: string;
+  label: string;
+}
+
+export interface TableColumn<T> {
+  key: keyof T;
+  label: string;
+  sortable?: boolean;
+  render?: (value: any, row: T) => React.ReactNode;
+}

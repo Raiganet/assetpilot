@@ -1,9 +1,32 @@
 'use client';
+
 import { toast as sonnerToast } from 'sonner';
 
-export const useToast = () => ({
-  success: (message: string, options?: any) => sonnerToast.success(message, options),
-  error: (message: string, options?: any) => sonnerToast.error(message, options),
-  info: (message: string, options?: any) => sonnerToast.info(message, options),
-  warning: (message: string, options?: any) => sonnerToast.warning(message, options),
-});
+interface ToastOptions {
+  duration?: number;
+  description?: string;
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
+}
+
+export const useToast = () => {
+  const success = (message: string, options?: ToastOptions) => {
+    sonnerToast.success(message, options);
+  };
+
+  const error = (message: string, options?: ToastOptions) => {
+    sonnerToast.error(message, options);
+  };
+
+  const info = (message: string, options?: ToastOptions) => {
+    sonnerToast.info(message, options);
+  };
+
+  const warning = (message: string, options?: ToastOptions) => {
+    sonnerToast.warning(message, options);
+  };
+
+  return { success, error, info, warning };
+};

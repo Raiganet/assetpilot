@@ -1,4 +1,10 @@
-export type UserRole = 'administrator' | 'warehouse' | 'technician' | 'supervisor' | 'management';
+export type UserRole = 
+  | 'administrator' 
+  | 'warehouse' 
+  | 'technician' 
+  | 'supervisor' 
+  | 'management';
+
 export type UserStatus = 'active' | 'inactive' | 'suspended';
 
 export interface UserProfile {

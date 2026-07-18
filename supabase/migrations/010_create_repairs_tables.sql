@@ -1,3 +1,4 @@
+-- Create repairs table
 CREATE TABLE public.repairs (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   repair_number TEXT UNIQUE NOT NULL,
@@ -16,10 +17,15 @@ CREATE TABLE public.repairs (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE TRIGGER update_repairs_updated_at BEFORE UPDATE ON public.repairs FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+-- Create trigger for repairs updated_at
+CREATE TRIGGER update_repairs_updated_at
+  BEFORE UPDATE ON public.repairs
+  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
+-- Create indexes
 CREATE INDEX idx_repairs_repair_number ON public.repairs(repair_number);
 CREATE INDEX idx_repairs_qc_id ON public.repairs(qc_id);
 CREATE INDEX idx_repairs_asset_id ON public.repairs(asset_id);
 CREATE INDEX idx_repairs_technician_id ON public.repairs(technician_id);
 CREATE INDEX idx_repairs_status ON public.repairs(status);
+CREATE INDEX idx_repairs_repair_date ON public.repairs(repair_date);

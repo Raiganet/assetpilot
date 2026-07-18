@@ -1,3 +1,4 @@
+-- Create receives table
 CREATE TABLE public.receives (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   receive_number TEXT UNIQUE NOT NULL,
@@ -19,9 +20,15 @@ CREATE TABLE public.receives (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE TRIGGER update_receives_updated_at BEFORE UPDATE ON public.receives FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+-- Create trigger for receives updated_at
+CREATE TRIGGER update_receives_updated_at
+  BEFORE UPDATE ON public.receives
+  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
+-- Create indexes
 CREATE INDEX idx_receives_receive_number ON public.receives(receive_number);
 CREATE INDEX idx_receives_withdrawal_id ON public.receives(withdrawal_id);
 CREATE INDEX idx_receives_warehouse_id ON public.receives(warehouse_id);
 CREATE INDEX idx_receives_asset_id ON public.receives(asset_id);
+CREATE INDEX idx_receives_received_by ON public.receives(received_by);
+CREATE INDEX idx_receives_receive_date ON public.receives(receive_date);

@@ -1,3 +1,4 @@
+-- Create quality checks table
 CREATE TABLE public.quality_checks (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   qc_number TEXT UNIQUE NOT NULL,
@@ -16,9 +17,12 @@ CREATE TABLE public.quality_checks (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Create trigger for quality_checks updated_at
+CREATE TRIGGER update_quality_checks_updated_at
+  BEFORE UPDATE ON public.quality_checks
+  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
-CREATE TRIGGER update_quality_checks_updated_at BEFORE UPDATE ON public.quality_checks FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
+-- Create indexes
 CREATE INDEX idx_quality_checks_qc_number ON public.quality_checks(qc_number);
 CREATE INDEX idx_quality_checks_receive_id ON public.quality_checks(receive_id);
 CREATE INDEX idx_quality_checks_asset_id ON public.quality_checks(asset_id);

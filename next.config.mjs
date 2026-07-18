@@ -2,11 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   eslint: {
-    // Mengabaikan error ESLint saat build production
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // Mengabaikan error TypeScript saat build production
     ignoreBuildErrors: true,
   },
   images: {
@@ -17,6 +15,24 @@ const nextConfig = {
         pathname: '/storage/v1/object/public/**',
       },
     ],
+  },
+  // PWA Support
+  async headers() {
+    return [
+      {
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
+          {
+            key: 'Service-Worker-Allowed',
+            value: '/',
+          },
+        ],
+      },
+    ];
   },
 };
 

@@ -9,11 +9,22 @@ export interface DashboardStats {
   warehouseStock: number;
 }
 
+export interface ChartDataPoint {
+  label: string;
+  value: number;
+  color?: string;
+}
+
 export interface MonthlyChartData {
   month: string;
   withdrawals: number;
   receives: number;
   repairs: number;
+}
+
+export interface DailyChartData {
+  date: string;
+  count: number;
 }
 
 export interface TopTechnician {

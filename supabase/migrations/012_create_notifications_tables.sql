@@ -1,3 +1,4 @@
+-- Create notifications table
 CREATE TABLE public.notifications (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES public.profiles(id),
@@ -12,6 +13,7 @@ CREATE TABLE public.notifications (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Create indexes
 CREATE INDEX idx_notifications_user_id ON public.notifications(user_id);
 CREATE INDEX idx_notifications_is_read ON public.notifications(is_read);
 CREATE INDEX idx_notifications_created_at ON public.notifications(created_at);
