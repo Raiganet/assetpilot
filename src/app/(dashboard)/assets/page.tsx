@@ -11,8 +11,8 @@ export default function AssetsPage() {
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Assets</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">Manage EDC assets and devices</p>
       </div>
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
-        <p>Assets page - Coming soon</p>
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow text-center">
+        <p className="text-gray-500">Asset management - Coming soon</p>
       </div>
     </div>
   );

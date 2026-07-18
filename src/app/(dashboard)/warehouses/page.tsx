@@ -11,8 +11,8 @@ export default function WarehousesPage() {
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Warehouses</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">Manage warehouse locations</p>
       </div>
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
-        <p>Warehouse page - Coming soon</p>
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow text-center">
+        <p className="text-gray-500">Warehouse management - Coming soon</p>
       </div>
     </div>
   );
