@@ -8,7 +8,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
-import Link from 'next/link';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -27,8 +26,7 @@ export default function LoginPage() {
       const { error } = await supabase.auth.signInWithPassword({ email: data.email, password: data.password });
       if (error) { toast.error(error.message); return; }
       toast.success('Login successful!');
-      router.push('/');
-      router.refresh();
+      window.location.href = '/';
     } finally { setLoading(false); }
   };
 
@@ -48,7 +46,6 @@ export default function LoginPage() {
             {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}
           </div>
           <Button type="submit" className="w-full" disabled={loading}>{loading ? 'Signing in...' : 'Sign In'}</Button>
-          <div className="text-center"><Link href="/forgot-password" className="text-sm text-primary-600">Forgot password?</Link></div>
         </form>
       </CardContent>
     </Card>
