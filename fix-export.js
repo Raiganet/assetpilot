@@ -1,4 +1,19 @@
-'use client';
+// fix-export.js
+const fs = require('fs');
+const path = require('path');
+
+function writeFile(filePath, content) {
+  const dir = path.dirname(filePath);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  fs.writeFileSync(filePath, content, 'utf8');
+  console.log('✅ Fixed: ' + filePath);
+}
+
+console.log('🚀 Fixing DataTable named export...\n');
+
+const dataTableContent = `'use client';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, TableSortLabel, IconButton, Tooltip } from '@mui/material';
 import { Edit, Trash2, Eye } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -95,4 +110,12 @@ export function DataTable<T extends { id: string }>({
       />
     </Card>
   );
-}
+}`;
+
+writeFile('src/components/data-display/data-table.tsx', dataTableContent);
+
+console.log('\n✅ DataTable export fixed to named export!');
+console.log('Next steps:');
+console.log('1. git add .');
+console.log('2. git commit -m "fix: change DataTable back to named export"');
+console.log('3. git push');
