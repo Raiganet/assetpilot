@@ -10,7 +10,7 @@ function writeFile(filePath, content) {
   console.log('✅ Created: ' + filePath);
 }
 
-console.log('🚀 Adding full CRUD features...\n');
+console.log(' Adding full CRUD features...\n');
 
 // ASSETS CLIENT
 writeFile('src/app/(dashboard)/assets/assets-client.tsx', `'use client';
