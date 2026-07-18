@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -9,7 +10,10 @@ export const TopTechnicians = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/dashboard/top-technicians').then(r => r.ok ? r.json() : []).then(setData).finally(() => setLoading(false));
+    fetch('/api/dashboard/top-technicians')
+      .then(r => r.ok ? r.json() : [])
+      .then(data => setTechnicians(data))
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <Card><Skeleton className="h-64 w-full" /></Card>;

@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { StatCard } from './stat-card';
 import { ClipboardList, Package, AlertTriangle, CheckCircle, Hammer, Boxes, Trash2, Warehouse } from 'lucide-react';
@@ -8,7 +9,10 @@ export const DashboardStats = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/dashboard/stats').then(r => r.ok ? r.json() : null).then(d => { if (d) setStats(d); }).finally(() => setLoading(false));
+    fetch('/api/dashboard/stats')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d) setStats(d); })
+      .finally(() => setLoading(false));
   }, []);
 
   return (
