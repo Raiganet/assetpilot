@@ -9,7 +9,10 @@ export const DashboardCharts = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/dashboard/monthly').then(r => r.ok ? r.json() : []).then(setData).finally(() => setLoading(false));
+    fetch('/api/dashboard/monthly')
+      .then(r => r.ok ? r.json() : [])
+      .then(data => setData(data))
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"><Card><Skeleton className="h-80 w-full" /></Card><Card><Skeleton className="h-80 w-full" /></Card></div>;

@@ -27,8 +27,7 @@ export default function LoginPage() {
       const { error } = await supabase.auth.signInWithPassword({ email: data.email, password: data.password });
       if (error) { toast.error(error.message); return; }
       toast.success('Login successful!');
-      router.push('/');
-      router.refresh();
+      window.location.href = '/';
     } finally { setLoading(false); }
   };
 

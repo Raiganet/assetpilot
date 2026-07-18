@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import { StatCard } from './stat-card';
 import { ClipboardList, Package, AlertTriangle, CheckCircle, Hammer, Boxes, Trash2, Warehouse } from 'lucide-react';

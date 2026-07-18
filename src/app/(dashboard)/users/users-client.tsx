@@ -8,7 +8,7 @@ import { FormField } from '@/components/forms/form-field';
 import { FormSelect } from '@/components/forms/form-select';
 import { useToast } from '@/lib/hooks/use-toast';
 import { useDebounce } from '@/lib/hooks/use-debounce';
-import { Plus, Search, Download } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';

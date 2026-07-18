@@ -1,13 +1,7 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 
 export async function GET() {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-    // Mock data for now
     const mockData = [
       { id: '1', name: 'John Doe', completedWO: 45, avgResponseTime: 32, rating: 4.8 },
       { id: '2', name: 'Jane Smith', completedWO: 38, avgResponseTime: 45, rating: 4.6 },
